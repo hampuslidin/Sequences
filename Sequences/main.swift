@@ -2,9 +2,12 @@
 //  main.swift
 //  Sequences
 //
+//  Author: Hampus Lidin
+//
 
+import Darwin
 import Foundation
 
-printSeq(vanEck(20), "Van Eck: ", ", ")
-printSeq(kolakoski(20), "Kolakoski: ", ", ")
-printSeq(verticalLineDivisible(10), "Verical line divisible: ", ", ")
+printSeq(vanEck(1000), "Van Eck: ", ", ")
+printSeq(kolakoski(1000), "Kolakoski: ", ", ")
+printSeq(verticalLineDivisible(15), "Verical line divisible: ", ", ")

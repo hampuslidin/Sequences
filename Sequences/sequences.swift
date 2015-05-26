@@ -2,9 +2,12 @@
 //  sequences.swift
 //  Sequences
 //
+//  Author: Hampus Lidin
+//
 
 import Darwin
 import Foundation
+import LargeNumbers
 
 /**
     © The Online Encyclopedia of Integer Sequences, https://oeis.org/A181391
@@ -22,7 +25,7 @@ import Foundation
 
     :returns: The Van Eck sequence.
 */
-func vanEck(length: Int) -> [UInt64]
+func vanEck(length: Int) -> [lint]
 {
   return genSeq(length)
   {
@@ -33,10 +36,10 @@ func vanEck(length: Int) -> [UInt64]
     }
     if k < 0
     {
-      $1.append(0)
+      $1.append(lint(0))
     } else
     {
-      $1.append(UInt64($0-1-k))
+      $1.append(lint($0-1-k))
     }
   }
 }
@@ -57,17 +60,17 @@ func vanEck(length: Int) -> [UInt64]
 
   :returns: The Kolakoski sequence.
 */
-func kolakoski(length: Int) -> [UInt64]
+func kolakoski(length: Int) -> [lint]
 {
   var runIndex = 1
   return genSeq(length)
   {
     if $0 == 0
     {
-      $1.append(1)
+      $1.append(lint(1))
     } else if $0 == 1
     {
-      $1.append(2)
+      $1.append(lint(2))
     } else
     {
       if $1[runIndex] == 1 || $1[$0-1] == $1[$0-2]
@@ -98,20 +101,20 @@ func kolakoski(length: Int) -> [UInt64]
 
   :returns: The sequence.
 */
-func verticalLineDivisible(length: Int) -> [UInt64]
+func verticalLineDivisible(length: Int) -> [lint]
 {
   return genSeq(length)
   {
     if $0 == 0
     {
-      $1.append(1)
+      $1.append(lint(1))
     } else
     {
-      let z: UInt64 = concatenateNumbers($1 as [UInt64])
-      var factors = factorize(z, 9)
+      let z: lint = concatenateNumbers($1 as [lint])
+      var factors = factorize(z)
       factors = abbreviate(factors, sorted: true)
       factors = factors.filter() {$0 < 10}
-      factors.append(1)
+      factors.append(lint(1))
       sort(&factors)
       $1.append(_findDivisor(z, factors, $1))
     }
@@ -121,42 +124,32 @@ func verticalLineDivisible(length: Int) -> [UInt64]
 // Helper functions
 
 /**
-  Calculates factors of a positive integer, with the option to choose the
-  biggest divisor to test the number with. If `maxSizeDivisor` is `nil`, then
-  the result will be all the prime factors.
+  Calculates the prime factors of `n`.
   
   :param: n               The number to factorize.
-  :param: maxSizeDivisor  The biggest divisor to test with.
-  
-  :returns: A list of the factors.
+
+  :returns: A list of the prime factors.
 */
-func factorize(n: UInt64, maxSizeDivisor: Int?) -> [UInt64]
+func factorize(n: lint) -> [lint]
 {
   if n <= 1 { return [] }
   var list = [n]
-  _primeFactorsFun(n, maxSizeDivisor, 0, &list)
+  _primeFactorsFun(n, 0, &list)
   sort(&list)
   return list
 }
 
-private func _primeFactorsFun(n: UInt64, maxSizeDivisor: Int?, index: Int,
-    inout list: [UInt64])
+private func _primeFactorsFun(n: lint, index: Int,
+    inout list: [lint])
 {
-  var limit: UInt64 = 0
-  if let defMaxSizePrime = maxSizeDivisor
-  {
-    limit = UInt64(defMaxSizePrime)
-  }
-  limit = UInt64(sqrt(Double(n))) < limit ? UInt64(sqrt(Double(n))) : limit
-  if limit < 2 { return }
-  for i in 2 ... limit
+  for var i = lint(2); i < sqrt(n); i++
   {
     if list[index]%i == 0
     {
       list[index] = list[index]/i
       list.append(i)
-      _primeFactorsFun(list[index], maxSizeDivisor, index, &list)
-      _primeFactorsFun(list.last!, maxSizeDivisor, list.count-1, &list)
+      _primeFactorsFun(list[index], index, &list)
+      _primeFactorsFun(list.last!, list.count-1, &list)
       return
     }
   }
@@ -167,11 +160,11 @@ private func _primeFactorsFun(n: UInt64, maxSizeDivisor: Int?, index: Int,
   
   :param: list  The integer array.
 */
-func abbreviate(list: [UInt64], #sorted: Bool) -> [UInt64]
+func abbreviate(list: [lint], #sorted: Bool) -> [lint]
 {
   var arr = list
   if !sorted { sort(&arr) }
-  var res = [UInt64]()
+  var res = [lint]()
   var i = 0
   while i < list.count
   {
@@ -190,10 +183,10 @@ func abbreviate(list: [UInt64], #sorted: Bool) -> [UInt64]
   
   :returns: The concatenated number.
 */
-func concatenateNumbers(list: [UInt64]) -> UInt64
+func concatenateNumbers(list: [lint]) -> lint
 {
-  if list.isEmpty { return 0 }
-  var z: UInt64 = list[0]
+  if list.isEmpty { return lint() }
+  var z: lint = list[0]
   for var i = 1; i < list.count; i++
   {
     z *= magnitude(list[i])*10
@@ -205,17 +198,17 @@ func concatenateNumbers(list: [UInt64]) -> UInt64
 /**
   Calculates the magnitude of an integer.
 */
-func magnitude(n: UInt64) -> UInt64
+func magnitude(n: lint) -> lint
 {
-  var mag: UInt64 = 1
+  var mag = lint(1)
   while n/(mag*10) != 0 {
     mag *= 10
   }
   return mag
 }
 
-private func _findDivisor(z: UInt64, primeFactors: [UInt64], seq: [UInt64])
-    -> UInt64
+private func _findDivisor(z: lint, primeFactors: [lint], seq: [lint])
+    -> lint
 {
   for elem in primeFactors
   {
@@ -229,12 +222,12 @@ private func _findDivisor(z: UInt64, primeFactors: [UInt64], seq: [UInt64])
   return _findDivisor(z, _magnify(primeFactors), seq)
 }
 
-private func _magnify(list: [UInt64]) -> [UInt64]
+private func _magnify(list: [lint]) -> [lint]
 {
-  var res: [UInt64] = []
+  var res: [lint] = []
   for elem in list
   {
-    for i: UInt64 in 1 ... 9
+    for i in 1 ... 9
     {
       res.append(elem*10+i)
     }
@@ -249,7 +242,7 @@ private func _magnify(list: [UInt64]) -> [UInt64]
     
   :returns: `true`, if `e` is contained in this array, otherwise `false`
 */
-func member(elem: UInt64, list: [UInt64]) -> Bool
+func member(elem: lint, list: [lint]) -> Bool
 {
   for e in list
   {
@@ -267,7 +260,7 @@ func member(elem: UInt64, list: [UInt64]) -> Bool
     
   :returns: The tuple `(a,b)` of the split number.
 */
-func split(n: UInt64) -> (UInt64, UInt64) { return (n/10, n%10) }
+func split(n: lint) -> (lint, lint) { return (n/10, n%10) }
 
 // Utility functions
 
@@ -282,11 +275,11 @@ func split(n: UInt64) -> (UInt64, UInt64) { return (n/10, n%10) }
 
     :returns: The calculated sequence.
 */
-func genSeq(length: Int, function: (Int, inout [UInt64]) -> ())
-    -> [UInt64]
+func genSeq(length: Int, function: (Int, inout [lint]) -> ())
+    -> [lint]
 {
   if length <= 0 { return [] }
-  var list = [UInt64]()
+  var list = [lint]()
   for i in 0 ..< length
   {
     function(i, &list)
@@ -301,7 +294,7 @@ func genSeq(length: Int, function: (Int, inout [UInt64]) -> ())
     :param: label The text in front of the printed sequence.
     :param: delim The delimiter.
 */
-func printSeq(seq: [UInt64], label: String, delim: String)
+func printSeq(seq: [lint], label: String, delim: String)
 {
   print(label)
   var i = seq.count

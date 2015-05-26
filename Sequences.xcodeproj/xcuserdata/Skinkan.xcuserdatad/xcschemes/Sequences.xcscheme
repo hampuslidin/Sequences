@@ -14,9 +14,23 @@
             buildForAnalyzing = "YES">
             <BuildableReference
                BuildableIdentifier = "primary"
-               BlueprintIdentifier = "16EFC8841B10BA06004F3443"
-               BuildableName = "Sequences"
+               BlueprintIdentifier = "16401F941B15210C00C9CAC6"
+               BuildableName = "Sequences.app"
                BlueprintName = "Sequences"
+               ReferencedContainer = "container:Sequences.xcodeproj">
+            </BuildableReference>
+         </BuildActionEntry>
+         <BuildActionEntry
+            buildForTesting = "YES"
+            buildForRunning = "YES"
+            buildForProfiling = "NO"
+            buildForArchiving = "NO"
+            buildForAnalyzing = "YES">
+            <BuildableReference
+               BuildableIdentifier = "primary"
+               BlueprintIdentifier = "16401FA31B15210D00C9CAC6"
+               BuildableName = "SequencesTests.xctest"
+               BlueprintName = "SequencesTests"
                ReferencedContainer = "container:Sequences.xcodeproj">
             </BuildableReference>
          </BuildActionEntry>
@@ -28,12 +42,22 @@
       shouldUseLaunchSchemeArgsEnv = "YES"
       buildConfiguration = "Debug">
       <Testables>
+         <TestableReference
+            skipped = "NO">
+            <BuildableReference
+               BuildableIdentifier = "primary"
+               BlueprintIdentifier = "16401FA31B15210D00C9CAC6"
+               BuildableName = "SequencesTests.xctest"
+               BlueprintName = "SequencesTests"
+               ReferencedContainer = "container:Sequences.xcodeproj">
+            </BuildableReference>
+         </TestableReference>
       </Testables>
       <MacroExpansion>
          <BuildableReference
             BuildableIdentifier = "primary"
-            BlueprintIdentifier = "16EFC8841B10BA06004F3443"
-            BuildableName = "Sequences"
+            BlueprintIdentifier = "16401F941B15210C00C9CAC6"
+            BuildableName = "Sequences.app"
             BlueprintName = "Sequences"
             ReferencedContainer = "container:Sequences.xcodeproj">
          </BuildableReference>
@@ -52,8 +76,8 @@
          runnableDebuggingMode = "0">
          <BuildableReference
             BuildableIdentifier = "primary"
-            BlueprintIdentifier = "16EFC8841B10BA06004F3443"
-            BuildableName = "Sequences"
+            BlueprintIdentifier = "16401F941B15210C00C9CAC6"
+            BuildableName = "Sequences.app"
             BlueprintName = "Sequences"
             ReferencedContainer = "container:Sequences.xcodeproj">
          </BuildableReference>
@@ -71,8 +95,8 @@
          runnableDebuggingMode = "0">
          <BuildableReference
             BuildableIdentifier = "primary"
-            BlueprintIdentifier = "16EFC8841B10BA06004F3443"
-            BuildableName = "Sequences"
+            BlueprintIdentifier = "16401F941B15210C00C9CAC6"
+            BuildableName = "Sequences.app"
             BlueprintName = "Sequences"
             ReferencedContainer = "container:Sequences.xcodeproj">
          </BuildableReference>
