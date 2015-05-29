@@ -2,7 +2,7 @@
 //  SequencesTests.swift
 //  SequencesTests
 //
-//  Created by Hampus Lidin on 2015-05-26.
+//  Created by Hampus Lidin on 2015-05-27.
 //  Copyright (c) 2015 Lidin. All rights reserved.
 //
 

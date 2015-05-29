@@ -1,0 +1,39 @@
+//
+//  Author: Hampus Lidin
+//
+
+/**
+    © The Online Encyclopedia of Integer Sequences, [URL to web page]
+
+    Generates the [name of sequence] ... [description of the sequence].
+
+    First 10 elements:
+  
+      [first 10 elements]
+*/
+class NameOfSequence: RecursiveSequenceGenerator {
+  // Properties
+  typealias Element = UInt
+  var index: Int { get { return elements.count-1 } }
+  var elements: [UInt] = []
+  
+  // Class variables
+  static let description = "* name of sequence *"
+  
+  // Initializers
+  required init() {}
+  
+  // Functions
+  func get(index: Int) -> UInt? {
+    return iterateTo(index, elements.count) { self.next() }
+  }
+  
+  // Sequence generation
+  func next() -> UInt? {
+    if index < 0 { elements.append(0); return 0 }
+
+    /*  Implementation  */
+
+    return elements.last
+  }
+}
