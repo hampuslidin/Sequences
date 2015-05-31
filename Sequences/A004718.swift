@@ -15,30 +15,43 @@
   
       0, 1, -1, 2, 1, 0, -2, 3, -1, 2
 */
-class A004718: InfiniteSequenceGenerator, RecursiveSequenceGenerator {
-  // Properties
-  typealias Element = Int
+class A004718: InfiniteSType, RecursiveSType {
+  // MARK: - Properties
+  typealias ValueType = Int
+  var delegate: IntegerSequenceDelegate? = IntegerSequenceDelegate()
   var index: Int { get { return elements.count-1 } }
   var elements: [Int] = []
+  var last: Int? = nil
+  let description = "Per Nørgård's infinity sequence"
   
-  // Class variables
-  static let description = "Per Nørgård's infinity sequence"
+  // MARK: - Instance Methods
+  func printSequence(amount: Int) {
+    delegate?.printSequence(self, amount: amount)
+  }
+
+  // MARK: - CollectionType
+  typealias Index = Int
+  typealias Generator = SGeneratorOf<Int>
+  let startIndex: Int = 0
+  var endIndex: Int { get { return elements.count } }
   
-  // Initializers
-  required init() {}
-  
-  // Functions
-  func get(index: Int) -> Int? {
-    return iterateTo(index, elements.count) { self.next() }
+  subscript(i: Int) -> Int {
+    return iterateTo(i, elements.count) { self.next(currentIndex: self.index)! }!
   }
   
-  func next() -> Int? {
+  func generate() -> SGeneratorOf<Int> { return SGeneratorOf<Int>(next) }
+  
+  // MARK: - Sequence generation
+  private func next(currentIndex cur_i: Int) -> Int? {
+    if cur_i < index { return elements[cur_i+1] }
     if index < 0 { elements.append(0); return 0 }
+    var res = 0
     if (index+1)%2 == 0 {
-      elements.append(-elements[(index+1)/2])
+      res = -elements[(index+1)/2]
     } else {
-      elements.append(elements[(index)/2] + 1)
+      res = elements[(index)/2] + 1
     }
-    return elements.last
+    elements.append(res)
+    return res
   }
 }

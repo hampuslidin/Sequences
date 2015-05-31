@@ -17,30 +17,41 @@
   
       0, 1, 2, 2, 3, 3, 4, 3, 4, 4
 */
-class A056239: InfiniteSequenceGenerator, ExplicitSequenceGenerator {
-  // Properties
-  typealias Element = UInt
+class A056239: InfiniteSType, ExplicitSType {
+  // MARK: - Properties
+  typealias ValueType = UInt
+  var delegate: IntegerSequenceDelegate? = IntegerSequenceDelegate()
   var index: Int = -1
+  var last: UInt? = nil
+  let description = "Sum of Heinz number partitions sequence"
   
-  // Class variables
-  static let description = "Sum of Heinz number partitions sequence"
+  // MARK: - Instance Methods
+  func printSequence(amount: Int) {
+    delegate?.printSequence(self, amount: amount)
+  }
+
+  // MARK: - CollectionType
+  typealias Index = Int
+  typealias Generator = SGeneratorOf<UInt>
+  let startIndex: Int = 0
+  var endIndex: Int { get { return index + 1 } }
   
-  // Initializers
-  required init() {}
+  subscript(i: Int) -> UInt {
+    return next(currentIndex: i)!
+  }
   
-  // Functions
-  func get(index: Int) -> UInt? {
+  func generate() -> SGeneratorOf<UInt> { return SGeneratorOf<UInt>(next) }
+  
+  // MARK: - Sequence generation
+  private func next(currentIndex cur_i: Int) -> UInt? {
     var res: UInt = 0
-    for pf in factorize(index+1) {
-      for p in IntegerSequence<A000040>() {
+    for pf in factorize(cur_i+2) {
+      for p in A000040() {
         res++
         if pf == Int(p) { break }
       }
     }
+    index++
     return res
-  }
-  
-  func next() -> UInt? {
-    return get(++index)
   }
 }

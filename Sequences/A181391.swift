@@ -17,31 +17,45 @@
 
       0, 0, 1, 0, 2, 0, 2, 2, 1, 6
 */
-class A181391: InfiniteSequenceGenerator, RecursiveSequenceGenerator {
-  // Properties
-  typealias Element = UInt
+class A181391: InfiniteSType, RecursiveSType {
+  // MARK: - Properties
+  typealias ValueType = UInt
+  var delegate: IntegerSequenceDelegate? = IntegerSequenceDelegate()
   var index: Int { get { return elements.count-1 } }
   var elements: [UInt] = []
+  var last: UInt? = nil
+  let description = "Van Eck sequence"
   
-  // Class variables
-  static let description = "Van Eck sequence"
+  // MARK: - Instance Methods
+  func printSequence(amount: Int) {
+    delegate?.printSequence(self, amount: amount)
+  }
+
+  // MARK: - CollectionType
+  typealias Index = Int
+  typealias Generator = SGeneratorOf<UInt>
+  let startIndex: Int = 0
+  var endIndex: Int { get { return elements.count } }
   
-  // Initializers
-  required init() {}
-  
-  // Functions
-  func get(index: Int) -> UInt? {
-    return iterateTo(index, elements.count) { self.next() }
+  subscript(i: Int) -> UInt {
+    return iterateTo(i, elements.count) { self.next(currentIndex: self.index)! }!
   }
   
-  func next() -> UInt? {
-    if index < 0 { elements.append(0); return 0 }
-    var k = index-1
+  func generate() -> SGeneratorOf<UInt> { return SGeneratorOf<UInt>(next) }
+  
+  // MARK: - Sequence generation
+  private func next(currentIndex cur_i: Int) -> UInt? {
+    if cur_i < index { return elements[cur_i+1] }
+    var k = index-1, res: UInt = 0
     while k >= 0 && elements.last! != elements[k] {
       k--
     }
-    if k < 0 { elements.append(0) }
-    else { elements.append(UInt(index-k)) }
-    return elements.last
+    if k < 0 {
+      res = 0
+    } else {
+      res = UInt(index-k)
+    }
+    elements.append(res)
+    return res
   }
 }

@@ -17,37 +17,46 @@
   
       1, 12, 35, 94, 135, 186, 248, 331, 344, 387
 */
-class A121805: FiniteSequenceGenerator, RecursiveSequenceGenerator {
-  // Properties
-  typealias Element = Int
+class A121805: FiniteSType, RecursiveSType {
+  // MARK: - Properties
+  typealias ValueType = Int
+  var delegate: IntegerSequenceDelegate? = IntegerSequenceDelegate()
   var index: Int { get { return elements.count-1 } }
   var elements: [Int] = []
-  var last: Int {
+  var last: Int? {
     get {
-      while next() != nil {}
+      while next(currentIndex: index) != nil {}
       return elements[index]
     }
   }
+  let description = "Commas sequence"
   
-  // Class variables
-  static let description = "Commas sequence"
+  // MARK: - Instance Methods
+  func printSequence(amount: Int) {
+    delegate?.printSequence(self, amount: amount)
+  }
+
+  // MARK: - CollectionType
+  typealias Index = Int
+  typealias Generator = SGeneratorOf<Int>
+  let startIndex: Int = 0
+  var endIndex: Int { get { return elements.count } }
   
-  // Initializers
-  required init() {}
-  
-  // Functions
-  func get(index: Int) -> Int? {
-    return iterateTo(index, elements.count) { self.next() }
+  subscript(i: Int) -> Int {
+    return iterateTo(i, elements.count) { self.next(currentIndex: self.index)! }!
   }
   
-  // Sequence generation
-  func next() -> Int? {
-    if index < 0 { elements.append(1); return 1 }
+  func generate() -> SGeneratorOf<Int> { return SGeneratorOf<Int>(next) }
+  
+  // MARK: - Sequence generation
+  private func next(currentIndex cur_i: Int) -> Int? {
+    if cur_i < 0 { elements.append(1); return 1 }
     let posNumbers = possibleNumbers(elements[index])
     for i in 1 ... 9  {
       if msd(posNumbers[i-1]) == i {
-        elements.append(posNumbers[i-1])
-        return elements.last
+        let res = posNumbers[i-1]
+        elements.append(res)
+        return res
       }
     }
     return nil

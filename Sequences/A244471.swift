@@ -19,33 +19,44 @@ import LargeNumbers
   
       1, 11, 3, 7, 71, 31, 111, 113, 33, 117
 */
-class A244471: InfiniteSequenceGenerator, RecursiveSequenceGenerator {
-  // Properties
-  typealias Element = LInt
+class A244471: InfiniteSType, RecursiveSType {
+  // MARK: - Properties
+  typealias ValueType = LInt
+  var delegate: IntegerSequenceDelegate? = IntegerSequenceDelegate()
   var index: Int { get { return elements.count-1 } }
   var elements: [LInt] = []
+  var last: LInt? = nil
+  let description = "Vertical line divisible sequence"
   
-  // Class variables
-  static let description = "Vertical line divisible sequence"
+  // MARK: - Instance Methods
+  func printSequence(amount: Int) {
+    delegate?.printSequence(self, amount: amount)
+  }
+
+  // MARK: - CollectionType
+  typealias Index = Int
+  typealias Generator = SGeneratorOf<LInt>
+  let startIndex: Int = 0
+  var endIndex: Int { get { return elements.count } }
   
-  // Initializers
-  required init() {}
-  
-  // Functions
-  func get(index: Int) -> LInt? {
-    return iterateTo(index, elements.count) { self.next() }
+  subscript(i: Int) -> LInt {
+    return iterateTo(i, elements.count) { self.next(currentIndex: self.index)! }!
   }
   
-  func next() -> LInt? {
-    if index < 0 { elements.append(LInt(1)); return LInt(1) }
+  func generate() -> SGeneratorOf<LInt> { return SGeneratorOf<LInt>(next) }
+  
+  // MARK: - Sequence generation
+  private func next(currentIndex cur_i: Int) -> LInt? {
+    if cur_i < index { return elements[cur_i+1] }
     var factors: [LInt] = [LInt(1),LInt(3),LInt(7),LInt(9)]
     let z = concatenateNumbers(elements)
-    elements.append(findDivisor(z, factors: factors, seq: elements))
-    return elements.last
+    var res = findDivisor(z, factors: factors, seq: elements)
+    elements.append(res)
+    return res
   }
   
   private func concatenateNumbers(list: [LInt]) -> LInt {
-    if list.isEmpty { return LInt() }
+    if list.isEmpty { return 0 }
     var z = list[0]
     for var i = 1; i < list.count; i++ {
       z *= magnitude(list[i])*10

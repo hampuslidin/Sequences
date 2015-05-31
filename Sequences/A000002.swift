@@ -17,32 +17,46 @@
   
       1, 2, 2, 1, 1, 2, 1, 2, 2, 1
 */
-class A000002: InfiniteSequenceGenerator, RecursiveSequenceGenerator {
-  // Properties
-  typealias Element = Int
+class A000002: InfiniteSType, RecursiveSType {
+  // MARK: - Properties
+  typealias ValueType = Int
+  var delegate: IntegerSequenceDelegate? = IntegerSequenceDelegate()
   var index: Int { get { return elements.count-1 } }
   var elements: [Int] = []
+  var last: Int? = nil
   var runIndex = 0
+  let description = "Kolakoski sequence"
   
-  // Class variables
-  static let description = "Kolakoski sequence"
+  // MARK: - Instance Methods
+  func printSequence(amount: Int) {
+    delegate?.printSequence(self, amount: amount)
+  }
+
+  // MARK: - CollectionType
+  typealias Index = Int
+  typealias Generator = SGeneratorOf<Int>
+  let startIndex: Int = 0
+  var endIndex: Int { get { return elements.count } }
   
-  // Initializers
-  required init() {}
-  
-  // Functions
-  func get(index: Int) -> Int? {
-    return iterateTo(index, elements.count) { self.next() }
+  subscript(i: Int) -> Int {
+    return iterateTo(i, elements.count) { self.next(currentIndex: self.index)! }!
   }
   
-  func next() -> Int? {
+  func generate() -> SGeneratorOf<Int> { return SGeneratorOf<Int>(next) }
+  
+  // MARK: - Sequence generation
+  private func next(currentIndex cur_i: Int) -> Int? {
+    if cur_i < index { return elements[cur_i+1] }
     if index < 0 { elements.append(1); return 1 }
-    if elements[runIndex] == 1 || elements[index] == elements[index-1] {
-      elements.append(elements[index]%2+1)
+    var res = 0
+    if elements[runIndex] == 1 ||
+        elements[index] == elements[index-1] {
+      res = elements[index]%2+1
       runIndex++
     } else if elements[runIndex] == 2 {
-      elements.append(elements[index])
+      res = elements[index]
     }
-    return elements.last
+    elements.append(res)
+    return res
   }
 }
