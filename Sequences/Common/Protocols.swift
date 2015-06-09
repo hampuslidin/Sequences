@@ -7,47 +7,33 @@
 
 import LargeNumbers
 
-typealias IntegerSType    = IntegerSequenceType
-typealias CombinedSType   = CombinedSequenceType
-typealias VariableSType   = VariableSequenceType
-typealias ExplicitSType   = ExplicitSequenceType
-typealias RecursiveSType  = RecursiveSequenceType
-typealias InfiniteSType   = InfiniteSequenceType
-typealias FiniteSType     = FiniteSequenceType
-
-protocol IntegerSequenceType: CollectionType {
-  typealias ValueType: IntegerType
+public protocol IntegerSType: CollectionType {
   typealias Generator: SGeneratorType
-  var delegate: IntegerSequenceDelegate? { get }
-  var index: Int { get }
-  var last: ValueType? { get }
-  var description: String { get}
-  func printSequence(amount: Int)
+  var last: LInt? { get }
+  var description: String { get }
+  var tag: Int { get }
 }
 
-protocol CombinedSequenceType: IntegerSequenceType {
-  init<T: IntegerSType where T.Generator.Element: IntegerType, T.Index == Int>(_ seq: T)
-  func equals<T: IntegerSType where T.Generator.Element: IntegerType, T.Index == Int>
-    (seq: T) -> Bool
-  func addOperation<T: IntegerSType where T.Generator.Element: IntegerType,
-    T.Index == Int>(operation: (LInt, LInt) -> LInt, seq: T)
+public protocol CombinedSType: IntegerSType {
+  var lhsGen: SGenerator { get }
+  var rhsGen: SGenerator { get }
+  var op: (LInt, LInt) -> LInt { get }
+  init<T1: IntegerSType, T2: IntegerSType
+      where T1.Generator.Element == LInt, T1.Index == Int,
+            T2.Generator.Element == LInt, T2.Index == Int>
+      (lhs: T1, rhs: T2, op: (LInt, LInt) -> LInt)
 }
 
-protocol VariableSequenceType: IntegerSequenceType {
-  var baseNumber: ValueType { get }
-  init(number: ValueType)
+public protocol VariableSType: IntegerSType {
+  var baseNumber: LInt { get }
+  init(number: LInt)
 }
 
-protocol ExplicitSequenceType: IntegerSequenceType {}
+public protocol ExplicitSType: IntegerSType {}
+public protocol RecursiveSType: IntegerSType {}
+public protocol InfiniteSType: IntegerSType {}
+public protocol FiniteSType: IntegerSType {}
 
-protocol RecursiveSequenceType: IntegerSequenceType {
-  var elements: [ValueType] { get }
-}
-
-protocol InfiniteSequenceType: IntegerSequenceType {}
-
-protocol FiniteSequenceType: IntegerSequenceType {}
-
-protocol SGeneratorType: GeneratorType {
-  func convert() -> SGeneratorOf<LInt>
+public protocol SGeneratorType: GeneratorType {
+  func convert() -> SGenerator
 }

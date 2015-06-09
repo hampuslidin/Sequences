@@ -5,6 +5,8 @@
 //  Author: Hampus Lidin
 //
 
+import LargeNumbers
+
 /**
     © The Online Encyclopedia of Integer Sequences, http://oeis.org/A000002
 
@@ -17,46 +19,24 @@
   
       1, 2, 2, 1, 1, 2, 1, 2, 2, 1
 */
-class A000002: InfiniteSType, RecursiveSType {
-  // MARK: - Properties
-  typealias ValueType = Int
-  var delegate: IntegerSequenceDelegate? = IntegerSequenceDelegate()
-  var index: Int { get { return elements.count-1 } }
-  var elements: [Int] = []
-  var last: Int? = nil
-  var runIndex = 0
-  let description = "Kolakoski sequence"
-  
-  // MARK: - Instance Methods
-  func printSequence(amount: Int) {
-    delegate?.printSequence(self, amount: amount)
-  }
-
-  // MARK: - CollectionType
-  typealias Index = Int
-  typealias Generator = SGeneratorOf<Int>
-  let startIndex: Int = 0
-  var endIndex: Int { get { return elements.count } }
-  
-  subscript(i: Int) -> Int {
-    return iterateTo(i, elements.count) { self.next(currentIndex: self.index)! }!
-  }
-  
-  func generate() -> SGeneratorOf<Int> { return SGeneratorOf<Int>(next) }
-  
-  // MARK: - Sequence generation
-  private func next(currentIndex cur_i: Int) -> Int? {
-    if cur_i < index { return elements[cur_i+1] }
-    if index < 0 { elements.append(1); return 1 }
-    var res = 0
-    if elements[runIndex] == 1 ||
-        elements[index] == elements[index-1] {
-      res = elements[index]%2+1
-      runIndex++
-    } else if elements[runIndex] == 2 {
-      res = elements[index]
-    }
-    elements.append(res)
-    return res
+public class A000002: RecursiveS {
+  // MARK: - Initializers
+  public init() {
+    var runIndex = 0
+    
+    super.init(infinite: true, tag: 0xA000002, description: "Kolakoski sequence",
+      nextElement: {
+        if $0 < 0 { return 1 }
+        var res: LInt = 0
+        if $1[runIndex] == 1 ||
+            $1[$0] == $1[$0-1] {
+          res = $1[$0]%2+1
+          runIndex++
+        } else if $1[runIndex] == 2 {
+          res = $1[$0]
+        }
+        return res
+      }
+    )
   }
 }

@@ -7,204 +7,208 @@
 
 import LargeNumbers
 
-// MARK: Equals
-func ==   <T: FiniteSType where T.Generator.Element: IntegerType, T.Index == Int>
-    (lhs: T, rhs: T) -> Bool {
-  var s = CombinedIntegerSequence(lhs)
-  return s.equals(rhs)
-}
-
-// MARK: Not equals
-func !=   <T: FiniteSType where T.Generator.Element: IntegerType, T.Index == Int>
-    (lhs: T, rhs: T) -> Bool {
-  return !(lhs == rhs)
-}
-
 // MARK: Add
-func +    <T1: IntegerSType, T2: IntegerSType
-    where T1.Generator.Element: IntegerType, T1.Index == Int,
-          T2.Generator.Element: IntegerType, T2.Index == Int>
+public func +    <T1: IntegerSType, T2: IntegerSType
+    where T1.Generator.Element == LInt, T1.Index == Int,
+          T2.Generator.Element == LInt, T2.Index == Int>
     (lhs: T1, rhs: T2) -> CombinedS {
-  return operate(lhs, rhs, +)
-}
-/*
-func +    <G: SequenceGType, T: IntegerType
-          where G.Element: IntegerType>
-          (lhs: IntegerSequence<G>, rhs: T)
-            -> IntegerSequence<CombinedGType> {
-  return lhs.subtract(IntegerSequence<SingleNumberGenerator>(number: rhs))
+  return CombinedS(lhs: lhs, rhs: rhs, op: +)
 }
 
-func +    <G: SequenceGType, T: IntegerType
-          where G.Element: IntegerType>
-          (lhs: T, rhs: IntegerSequence<G>)
-            -> IntegerSequence<CombinedGType> {
+public func +    <T: IntegerSType, U: IntegerType
+    where T.Generator.Element == LInt, T.Index == Int>
+    (lhs: T, rhs: U) -> CombinedS {
+  return lhs + RecurringS(number: rhs)
+}
+
+public func +    <T: IntegerSType, U: IntegerType
+    where T.Generator.Element == LInt, T.Index == Int>
+    (lhs: U, rhs: T) -> CombinedS {
   return rhs + lhs
 }
 
 // MARK: Subtract
-func -    <G1, G2: SequenceGType
-          where G1.Element: IntegerType, G2.Element: IntegerType>
-          (lhs: IntegerSequence<G1>, rhs: IntegerSequence<G2>)
-            -> IntegerSequence<CombinedGType> {
-  return lhs.subtract(rhs)
+public func -    <T1: IntegerSType, T2: IntegerSType
+    where T1.Generator.Element == LInt, T1.Index == Int,
+          T2.Generator.Element == LInt, T2.Index == Int>
+    (lhs: T1, rhs: T2) -> CombinedS {
+  return CombinedS(lhs: lhs, rhs: rhs, op: -)
 }
 
-func -    <G: SequenceGType, T: IntegerType
-          where G.Element: IntegerType>
-          (lhs: IntegerSequence<G>, rhs: T)
-            -> IntegerSequence<CombinedGType> {
-  return lhs.subtract(IntegerSequence<SingleNumberGenerator>(number: rhs))
+public func -    <T: IntegerSType, U: IntegerType
+    where T.Generator.Element == LInt, T.Index == Int>
+    (lhs: T, rhs: U) -> CombinedS {
+  return lhs - RecurringS(number: rhs)
 }
 
-func -    <G: SequenceGType, T: IntegerType
-          where G.Element: IntegerType>
-          (lhs: T, rhs: IntegerSequence<G>)
-            -> IntegerSequence<CombinedGType> {
-  return rhs - lhs
+public func -    <T: IntegerSType, U: IntegerType
+    where T.Generator.Element == LInt, T.Index == Int>
+    (lhs: U, rhs: T) -> CombinedS {
+  return RecurringS(number: lhs) - rhs
 }
 
 // MARK: Multiply
-func *    <G1: SequenceGType, G2: SequenceGType>
-          (lhs: IntegerSequence<G1>, rhs: IntegerSequence<G2>)
-            -> IntegerSequence<CombinedGType> {
-  return lhs.multiply(rhs)
+public func *    <T1: IntegerSType, T2: IntegerSType
+    where T1.Generator.Element == LInt, T1.Index == Int,
+          T2.Generator.Element == LInt, T2.Index == Int>
+    (lhs: T1, rhs: T2) -> CombinedS {
+  return CombinedS(lhs: lhs, rhs: rhs, op: *)
 }
 
-func *    <G: SequenceGType, T: IntegerType>(lhs: IntegerSequence<G>, rhs: T)
-            -> IntegerSequence<CombinedGType> {
-  return lhs * IntegerSequence<SingleNumberGenerator>()
+public func *    <T: IntegerSType, U: IntegerType
+    where T.Generator.Element == LInt, T.Index == Int>
+    (lhs: T, rhs: U) -> CombinedS {
+  return lhs * RecurringS(number: rhs)
 }
 
-func *    <G: SequenceGType, T: IntegerType>(lhs: T, rhs: IntegerSequence<T>)
-            -> IntegerSequence<CombinedGType> {
+public func *    <T: IntegerSType, U: IntegerType
+    where T.Generator.Element == LInt, T.Index == Int>
+    (lhs: U, rhs: T) -> CombinedS {
   return rhs * lhs
 }
 
 // MARK: Divide
-func /    <G1: SequenceGType, G2: SequenceGType>
-          (lhs: IntegerSequence<G1>, rhs: IntegerSequence<G2>)
-            -> IntegerSequence<CombinedGType> {
-  return lhs.divide(rhs)
+public func /    <T1: IntegerSType, T2: IntegerSType
+    where T1.Generator.Element == LInt, T1.Index == Int,
+          T2.Generator.Element == LInt, T2.Index == Int>
+    (lhs: T1, rhs: T2) -> CombinedS {
+  return CombinedS(lhs: lhs, rhs: rhs, op: /)
 }
 
-func /    <G: SequenceGType, T: IntegerType>(lhs: IntegerSequence<G>, rhs: T)
-            -> IntegerSequence<CombinedGType> {
-  return lhs / IntegerSequence<SingleNumberGenerator>()
+public func /    <T: IntegerSType, U: IntegerType
+    where T.Generator.Element == LInt, T.Index == Int>
+    (lhs: T, rhs: U) -> CombinedS {
+  return lhs / RecurringS(number: rhs)
 }
 
-func /    <G: SequenceGType, T: IntegerType>(lhs: T, rhs: IntegerSequence<T>)
-            -> IntegerSequence<CombinedGType> {
-  return rhs / lhs
+public func /    <T: IntegerSType, U: IntegerType
+    where T.Generator.Element == LInt, T.Index == Int>
+    (lhs: U, rhs: T) -> CombinedS {
+  return RecurringS(number: lhs) / rhs
 }
 
 // MARK: Modulus
-func %    <G1: SequenceGType, G2: SequenceGType>
-          (lhs: IntegerSequence<G1>, rhs: IntegerSequence<G2>)
-            -> IntegerSequence<CombinedGType> {
-  return lhs.mod(rhs)
+public func %    <T1: IntegerSType, T2: IntegerSType
+    where T1.Generator.Element == LInt, T1.Index == Int,
+          T2.Generator.Element == LInt, T2.Index == Int>
+    (lhs: T1, rhs: T2) -> CombinedS {
+  return CombinedS(lhs: lhs, rhs: rhs, op: %)
 }
 
-func %    <G: SequenceGType, T: IntegerType>(lhs: IntegerSequence<G>, rhs: T)
-            -> IntegerSequence<CombinedGType> {
-  return lhs % IntegerSequence<SingleNumberGenerator>()
+public func %    <T: IntegerSType, U: IntegerType
+    where T.Generator.Element == LInt, T.Index == Int>
+    (lhs: T, rhs: U) -> CombinedS {
+  return lhs % RecurringS(number: rhs)
 }
 
-func %    <G: SequenceGType, T: IntegerType>(lhs: T, rhs: IntegerSequence<T>)
-            -> IntegerSequence<CombinedGType> {
-  return rhs % lhs
+public func %    <T: IntegerSType, U: IntegerType
+    where T.Generator.Element == LInt, T.Index == Int>
+    (lhs: U, rhs: T) -> CombinedS {
+  return RecurringS(number: lhs) % rhs
 }
 
 // MARK: Logical left shift
-func <<   <G1: SequenceGType, G2: SequenceGType>
-          (lhs: IntegerSequence<G1>, rhs: IntegerSequence<G2>)
-            -> IntegerSequence<CombinedGType> {
-  return lhs.lls(rhs)
+public func <<   <T1: IntegerSType, T2: IntegerSType
+    where T1.Generator.Element == LInt, T1.Index == Int,
+          T2.Generator.Element == LInt, T2.Index == Int>
+    (lhs: T1, rhs: T2) -> CombinedS {
+  return CombinedS(lhs: lhs, rhs: rhs, op: <<)
 }
 
-func <<   <G: SequenceGType, T: IntegerType>(lhs: IntegerSequence<G>, rhs: T)
-            -> IntegerSequence<CombinedGType> {
-  return lhs << IntegerSequence<SingleNumberGenerator>()
+public func <<   <T: IntegerSType, U: IntegerType
+    where T.Generator.Element == LInt, T.Index == Int>
+    (lhs: T, rhs: U) -> CombinedS {
+  return lhs << RecurringS(number: rhs)
 }
 
-func <<   <G: SequenceGType, T: IntegerType>(lhs: T, rhs: IntegerSequence<T>)
-            -> IntegerSequence<CombinedGType> {
-  return rhs << lhs
+public func <<   <T: IntegerSType, U: IntegerType
+    where T.Generator.Element == LInt, T.Index == Int>
+    (lhs: U, rhs: T) -> CombinedS {
+  return RecurringS(number: lhs) << rhs
 }
 
 // MARK: Logical right shift
-func >>   <G1: SequenceGType, G2: SequenceGType>
-          (lhs: IntegerSequence<G1>, rhs: IntegerSequence<G2>)
-            -> IntegerSequence<CombinedGType> {
-  return lhs.lrs(rhs)
+public func >>   <T1: IntegerSType, T2: IntegerSType
+    where T1.Generator.Element == LInt, T1.Index == Int,
+          T2.Generator.Element == LInt, T2.Index == Int>
+    (lhs: T1, rhs: T2) -> CombinedS {
+  return CombinedS(lhs: lhs, rhs: rhs, op: >>)
 }
 
-func >>   <G: SequenceGType, T: IntegerType>(lhs: IntegerSequence<G>, rhs: T)
-            -> IntegerSequence<CombinedGType> {
-  return lhs >> IntegerSequence<SingleNumberGenerator>()
+public func >>   <T: IntegerSType, U: IntegerType
+    where T.Generator.Element == LInt, T.Index == Int>
+    (lhs: T, rhs: U) -> CombinedS {
+  return lhs >> RecurringS(number: rhs)
 }
 
-func >>   <G: SequenceGType, T: IntegerType>(lhs: T, rhs: IntegerSequence<T>)
-            -> IntegerSequence<CombinedGType> {
-  return rhs >> lhs
+public func >>   <T: IntegerSType, U: IntegerType
+    where T.Generator.Element == LInt, T.Index == Int>
+    (lhs: U, rhs: T) -> CombinedS {
+  return RecurringS(number: lhs) >> rhs
 }
 
 // MARK: Bitwise AND
-func &    <G1: SequenceGType, G2: SequenceGType>
-          (lhs: IntegerSequence<G1>, rhs: IntegerSequence<G2>)
-            -> IntegerSequence<CombinedGType> {
-  return lhs.and(rhs)
+public func &    <T1: IntegerSType, T2: IntegerSType
+    where T1.Generator.Element == LInt, T1.Index == Int,
+          T2.Generator.Element == LInt, T2.Index == Int>
+    (lhs: T1, rhs: T2) -> CombinedS {
+  return CombinedS(lhs: lhs, rhs: rhs, op: &)
 }
 
-func &    <G: SequenceGType, T: IntegerType>(lhs: IntegerSequence<G>, rhs: T)
-            -> IntegerSequence<CombinedGType> {
-  return lhs & IntegerSequence<SingleNumberGenerator>()
+public func &    <T: IntegerSType, U: IntegerType
+    where T.Generator.Element == LInt, T.Index == Int>
+    (lhs: T, rhs: U) -> CombinedS {
+  return lhs & RecurringS(number: rhs)
 }
 
-func &    <G: SequenceGType, T: IntegerType>(lhs: T, rhs: IntegerSequence<T>)
-            -> IntegerSequence<CombinedGType> {
+public func &    <T: IntegerSType, U: IntegerType
+    where T.Generator.Element == LInt, T.Index == Int>
+    (lhs: U, rhs: T) -> CombinedS {
   return rhs & lhs
 }
 
 // MARK: Bitwise OR
-func |    <G1: SequenceGType, G2: SequenceGType>
-          (lhs: IntegerSequence<G1>, rhs: IntegerSequence<G2>)
-            -> IntegerSequence<CombinedGType> {
-  return lhs.or(rhs)
+func |    <T1: IntegerSType, T2: IntegerSType
+    where T1.Generator.Element == LInt, T1.Index == Int,
+          T2.Generator.Element == LInt, T2.Index == Int>
+    (lhs: T1, rhs: T2) -> CombinedS {
+  return CombinedS(lhs: lhs, rhs: rhs, op: |)
 }
 
-func |    <G: SequenceGType, T: IntegerType>(lhs: IntegerSequence<G>, rhs: T)
-            -> IntegerSequence<CombinedGType> {
-  return lhs | IntegerSequence<SingleNumberGenerator>()
+func |    <T: IntegerSType, U: IntegerType
+    where T.Generator.Element == LInt, T.Index == Int>
+    (lhs: T, rhs: U) -> CombinedS {
+  return lhs | RecurringS(number: rhs)
 }
 
-func |    <G: SequenceGType, T: IntegerType>(lhs: T, rhs: IntegerSequence<T>)
-            -> IntegerSequence<CombinedGType> {
+func |    <T: IntegerSType, U: IntegerType
+    where T.Generator.Element == LInt, T.Index == Int>
+    (lhs: U, rhs: T) -> CombinedS {
   return rhs | lhs
 }
 
 // MARK: Bitwise XOR
-func ^    <G1: SequenceGType, G2: SequenceGType>
-          (lhs: IntegerSequence<G1>, rhs: IntegerSequence<G2>)
-            -> IntegerSequence<CombinedGType> {
-  return lhs.or(rhs)
+func ^    <T1: IntegerSType, T2: IntegerSType
+    where T1.Generator.Element == LInt, T1.Index == Int,
+          T2.Generator.Element == LInt, T2.Index == Int>
+    (lhs: T1, rhs: T2) -> CombinedS {
+  return CombinedS(lhs: lhs, rhs: rhs, op: ^)
 }
 
-func ^    <G: SequenceGType, T: IntegerType>(lhs: IntegerSequence<G>, rhs: T)
-            -> IntegerSequence<CombinedGType> {
-  return lhs | IntegerSequence<SingleNumberGenerator>()
+func ^    <T: IntegerSType, U: IntegerType
+    where T.Generator.Element == LInt, T.Index == Int>
+    (lhs: T, rhs: U) -> CombinedS {
+  return lhs ^ RecurringS(number: rhs)
 }
 
-func ^    <G: SequenceGType, T: IntegerType>(lhs: T, rhs: IntegerSequence<T>)
-            -> IntegerSequence<CombinedGType> {
-  return rhs | lhs
+func ^    <T: IntegerSType, U: IntegerType
+    where T.Generator.Element == LInt, T.Index == Int>
+    (lhs: U, rhs: T) -> CombinedS {
+  return rhs ^ lhs
 }
 
 // MARK: Bitwaise NOT
-prefix func ~    <G: SequenceGTypeType>(obj: IntegerSequence<G>)
-            -> IntegerSequence<CombinedGType> {
-  return IntegerSequence<CombinedGType>() {
-    return ~LInt(obj.generator.next()) as LInt?
-  }
+prefix func ~    <T: IntegerSType where T.Generator.Element == LInt, T.Index == Int>
+    (seq: T) -> CombinedS {
+  return CombinedS(lhs: seq, rhs: RecurringS(number: 0)) { a1, a2 in ~a1 }
 }
-*/

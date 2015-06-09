@@ -19,43 +19,21 @@ import LargeNumbers
   
       1, 11, 3, 7, 71, 31, 111, 113, 33, 117
 */
-class A244471: InfiniteSType, RecursiveSType {
-  // MARK: - Properties
-  typealias ValueType = LInt
-  var delegate: IntegerSequenceDelegate? = IntegerSequenceDelegate()
-  var index: Int { get { return elements.count-1 } }
-  var elements: [LInt] = []
-  var last: LInt? = nil
-  let description = "Vertical line divisible sequence"
-  
-  // MARK: - Instance Methods
-  func printSequence(amount: Int) {
-    delegate?.printSequence(self, amount: amount)
+public class A244471: RecursiveS {
+  // MARK: - Initializers
+  public init() {
+    super.init(infinite: true, tag: 0xA244471,
+      description: "Vertical line divisible sequence", nextElement: {
+        var factors: [LInt] = [LInt(1),LInt(3),LInt(7),LInt(9)]
+        let z = A244471.concatenateNumbers($1)
+        var res = A244471.findDivisor(z, factors: factors, seq: $1)
+        return res
+      }
+    )
   }
-
-  // MARK: - CollectionType
-  typealias Index = Int
-  typealias Generator = SGeneratorOf<LInt>
-  let startIndex: Int = 0
-  var endIndex: Int { get { return elements.count } }
-  
-  subscript(i: Int) -> LInt {
-    return iterateTo(i, elements.count) { self.next(currentIndex: self.index)! }!
-  }
-  
-  func generate() -> SGeneratorOf<LInt> { return SGeneratorOf<LInt>(next) }
   
   // MARK: - Sequence generation
-  private func next(currentIndex cur_i: Int) -> LInt? {
-    if cur_i < index { return elements[cur_i+1] }
-    var factors: [LInt] = [LInt(1),LInt(3),LInt(7),LInt(9)]
-    let z = concatenateNumbers(elements)
-    var res = findDivisor(z, factors: factors, seq: elements)
-    elements.append(res)
-    return res
-  }
-  
-  private func concatenateNumbers(list: [LInt]) -> LInt {
+  private static func concatenateNumbers(list: [LInt]) -> LInt {
     if list.isEmpty { return 0 }
     var z = list[0]
     for var i = 1; i < list.count; i++ {
@@ -64,16 +42,16 @@ class A244471: InfiniteSType, RecursiveSType {
     }
     return z
   }
-  
-  private func magnitude(n: LInt) -> LInt {
+        
+  private static func magnitude(n: LInt) -> LInt {
     var mag = LInt(1)
     while n/(mag*10) != 0 {
       mag *= 10
     }
     return mag
   }
-  
-  private func findDivisor(z: LInt, factors: [LInt], seq: [LInt]) -> LInt {
+        
+  private static func findDivisor(z: LInt, factors: [LInt], seq: [LInt]) -> LInt {
     var newFactors = [LInt]()
     for elem in factors {
       let (a,b) = split(elem)
@@ -88,16 +66,16 @@ class A244471: InfiniteSType, RecursiveSType {
     return findDivisor(z, factors: magnify(newFactors), seq: seq)
   }
   
-  private func split(n: LInt) -> (LInt, LInt) { return (n/10, n%10) }
+  private static func split(n: LInt) -> (LInt, LInt) { return (n/10, n%10) }
   
-  private func member(elem: LInt, list: [LInt]) -> Bool {
+  private static func member(elem: LInt, list: [LInt]) -> Bool {
     for e in list {
       if e == elem { return true }
     }
     return false
   }
-  
-  private func magnify(list: [LInt]) -> [LInt] {
+        
+  private static func magnify(list: [LInt]) -> [LInt] {
     var res = [LInt]()
     for elem in list {
       res.append(elem*10+1)
@@ -107,4 +85,5 @@ class A244471: InfiniteSType, RecursiveSType {
     }
     return res
   }
+ 
 }

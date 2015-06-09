@@ -7,11 +7,41 @@
 		<key>Sequences.xcscheme</key>
 		<dict>
 			<key>orderHint</key>
-			<integer>0</integer>
+			<integer>1</integer>
 		</dict>
 	</dict>
 	<key>SuppressBuildableAutocreation</key>
 	<dict>
+		<key>1634EB3E1B25BFF9005237EC</key>
+		<dict>
+			<key>primary</key>
+			<true/>
+		</dict>
+		<key>1634EB481B25BFF9005237EC</key>
+		<dict>
+			<key>primary</key>
+			<true/>
+		</dict>
+		<key>1634EB5C1B25C10B005237EC</key>
+		<dict>
+			<key>primary</key>
+			<true/>
+		</dict>
+		<key>1634EB661B25C10B005237EC</key>
+		<dict>
+			<key>primary</key>
+			<true/>
+		</dict>
+		<key>1634EB781B25C133005237EC</key>
+		<dict>
+			<key>primary</key>
+			<true/>
+		</dict>
+		<key>1634EB821B25C133005237EC</key>
+		<dict>
+			<key>primary</key>
+			<true/>
+		</dict>
 		<key>16401F941B15210C00C9CAC6</key>
 		<dict>
 			<key>primary</key>
