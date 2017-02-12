@@ -19,13 +19,13 @@ import LargeNumbers
   
       1, 12, 35, 94, 135, 186, 248, 331, 344, 387
 */
-public class A121805: RecursiveS {
+open class A121805: RecursiveS {
   // MARK: - Initializers
   public init() {
     super.init(infinite: false, tag: 0xA121805, description: "Commas sequence",
       nextElement: {
-        if $0 < 0 { return 1 }
-        let posNumbers = A121805.possibleNumbers($1[$0])
+        if $0 == 0 { return 1 }
+        let posNumbers = A121805.possibleNumbers($1[$0-1])
         for i in 1 ... 9  {
           if A121805.msd(posNumbers[i-1]) == LInt(i) {
             let res = posNumbers[i-1]
@@ -38,15 +38,16 @@ public class A121805: RecursiveS {
   }
   
   // MARK: - Sequence generation
-  private static func possibleNumbers(n: LInt) -> [LInt] {
+  fileprivate static func possibleNumbers(_ n: LInt) -> [LInt] {
     var res: [LInt] = []
-    for i: LInt in 1 ... 9 {
-      res.append(n%10*10+i+n)
+    for i in 1 ... 9 {
+      let li = LInt(i)
+      res.append((n % 10)*10 + li + n)
     }
     return res
   }
   
-  private static func msd(n: LInt) -> LInt {
+  fileprivate static func msd(_ n: LInt) -> LInt {
     var res = n
     while res >= 10 { res /= 10 }
     return res

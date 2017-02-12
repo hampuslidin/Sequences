@@ -16,11 +16,11 @@ import LargeNumbers
   
       1, 2, 3, 4, 5, 6, 7, 8, 9, 10
 */
-public class A000027: ExplicitS {
+open class A000027: ExplicitS {
   // MARK: - Initializers
   public init() {
     super.init(infinite: true, tag: 0xA000027, description: "Positive integers",
-      nextElement: { return LInt($0+1) }
+      nextElement: { LInt($0+1) }
     )
   }
 }

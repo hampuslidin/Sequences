@@ -19,19 +19,19 @@ import LargeNumbers
 
       0, 0, 1, 0, 2, 0, 2, 2, 1, 6
 */
-public class A181391: RecursiveS {
+open class A181391: RecursiveS {
   // MARK: - Initializers
   public init() {
     super.init(infinite: true, tag: 0xA181391, description: "Van Eck sequence",
       nextElement: {
-        var k = $0-1, res: LInt = 0
+        var k = $0-2, res: LInt = 0
         while k >= 0 && $1.last! != $1[k] {
-          k--
+          k -= 1
         }
         if k < 0 {
           res = 0
         } else {
-          res = LInt($0)-LInt(k)
+          res = LInt($0-1)-LInt(k)
         }
         return res
       }

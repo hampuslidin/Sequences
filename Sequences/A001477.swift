@@ -14,7 +14,7 @@
   
       0, 1, 2, 3, 4, 5, 6, 7, 8, 9
 */
-public class A001477: ExplicitS {
+open class A001477: ExplicitS {
   // MARK: - Initializers
   public init() {
     super.init(infinite: true, tag: 0xA001477, description: "Non-negative integers",

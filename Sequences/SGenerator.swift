@@ -7,19 +7,20 @@
 
 import LargeNumbers
 
-public struct SGenerator: SGeneratorType {
+public struct SGenerator: IteratorProtocol {
   // MARK: - Properties
   var nextElement: (Int) -> LInt?
-  var index: Int = -1
+  var index: Int = 0
   
   // MARK: - Initializers
-  init(_ nextElement: (Int) -> LInt?) {
+  init(_ nextElement: @escaping (Int) -> LInt?) {
     self.nextElement = nextElement
   }
   
   // MARK: - Instance Methods
   public mutating func next() -> LInt? {
-    return nextElement(index++)
+    index += 1
+    return nextElement(index-1)
   }
   
   public func convert() -> SGenerator {

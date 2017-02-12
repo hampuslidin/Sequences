@@ -17,12 +17,12 @@ import LargeNumbers
   
       0, 1, -1, 2, -2, 3, -3, 4, -4, 5
 */
-public class A001057: ExplicitS {
+open class A001057: ExplicitS {
   // MARK: - Initializers
   public init() {
     super.init(infinite: true, tag: 0xA001057, description: "All integers",
       nextElement: { 
-        var res: LInt = LInt(-($0+1)/2)*LInt(pow(-1.0, Double($0%2)))
+        let res: LInt = LInt(-($0+1)/2)*LInt(pow(-1.0, Double($0%2)))
         return res
       }
     )

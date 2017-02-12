@@ -19,31 +19,31 @@ import LargeNumbers
   
       1, 11, 3, 7, 71, 31, 111, 113, 33, 117
 */
-public class A244471: RecursiveS {
+open class A244471: RecursiveS {
   // MARK: - Initializers
   public init() {
     super.init(infinite: true, tag: 0xA244471,
       description: "Vertical line divisible sequence", nextElement: {
-        var factors: [LInt] = [LInt(1),LInt(3),LInt(7),LInt(9)]
+        let factors: [LInt] = [LInt(1),LInt(3),LInt(7),LInt(9)]
         let z = A244471.concatenateNumbers($1)
-        var res = A244471.findDivisor(z, factors: factors, seq: $1)
+        let res = A244471.findDivisor(z, factors: factors, seq: $1)
         return res
       }
     )
   }
   
   // MARK: - Sequence generation
-  private static func concatenateNumbers(list: [LInt]) -> LInt {
+  fileprivate static func concatenateNumbers(_ list: [LInt]) -> LInt {
     if list.isEmpty { return 0 }
     var z = list[0]
-    for var i = 1; i < list.count; i++ {
+    for i in 1 ..< list.count {
       z *= magnitude(list[i])*10
       z += list[i]
     }
     return z
   }
         
-  private static func magnitude(n: LInt) -> LInt {
+  fileprivate static func magnitude(_ n: LInt) -> LInt {
     var mag = LInt(1)
     while n/(mag*10) != 0 {
       mag *= 10
@@ -51,7 +51,7 @@ public class A244471: RecursiveS {
     return mag
   }
         
-  private static func findDivisor(z: LInt, factors: [LInt], seq: [LInt]) -> LInt {
+  fileprivate static func findDivisor(_ z: LInt, factors: [LInt], seq: [LInt]) -> LInt {
     var newFactors = [LInt]()
     for elem in factors {
       let (a,b) = split(elem)
@@ -66,16 +66,16 @@ public class A244471: RecursiveS {
     return findDivisor(z, factors: magnify(newFactors), seq: seq)
   }
   
-  private static func split(n: LInt) -> (LInt, LInt) { return (n/10, n%10) }
+  fileprivate static func split(_ n: LInt) -> (LInt, LInt) { return (n/10, n%10) }
   
-  private static func member(elem: LInt, list: [LInt]) -> Bool {
+  fileprivate static func member(_ elem: LInt, list: [LInt]) -> Bool {
     for e in list {
       if e == elem { return true }
     }
     return false
   }
         
-  private static func magnify(list: [LInt]) -> [LInt] {
+  fileprivate static func magnify(_ list: [LInt]) -> [LInt] {
     var res = [LInt]()
     for elem in list {
       res.append(elem*10+1)

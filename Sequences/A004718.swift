@@ -17,17 +17,17 @@ import LargeNumbers
   
       0, 1, -1, 2, 1, 0, -2, 3, -1, 2
 */
-public class A004718: RecursiveS {
+open class A004718: RecursiveS {
   // MARK: - Initializers
   public init() {
     super.init(infinite: true, tag: 0xA004718,
       description: "Per Nørgård's infinity sequence", nextElement: {
-        if $0 < 0 { return 0 }
+        if $0 == 0 { return 0 }
         var res: LInt = 0
-        if ($0+1)%2 == 0 {
-          res = -$1[($0+1)/2]
+        if $0%2 == 0 {
+          res = -$1[$0/2]
         } else {
-          res = $1[($0)/2] + 1
+          res = $1[($0-1)/2] + 1
         }
         return res
       }

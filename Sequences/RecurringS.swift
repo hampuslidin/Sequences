@@ -14,28 +14,33 @@ import LargeNumbers
   
       `n`, `n`, `n`, ...
 */
-public class RecurringS: VariableSType, InfiniteSType, ExplicitSType {
+open class RecurringS: IntegerS, ExpressibleByIntegerLiteral {
   // MARK: - Properties
-  typealias ValueType                     = LInt
-  public var baseNumber: LInt
-  public var description: String { get { return "Sequence of \(baseNumber)'s" } }
-  public let last: LInt?                         = nil
-  public let tag: Int = 0xF3
-  
-  // MARK: - Initializers
-  required public init<T: IntegerType>(number: T) {
-    baseNumber = LInt(number)
+  open var baseNumber: LInt {
+    didSet {
+      description = "Sequence of \(baseNumber)'s"
+    }
   }
   
-  // MARK: - CollectionType
-  typealias Index     = Int
-  typealias Generator = SGenerator
-  public let startIndex: Int = 0
-  public var endIndex:   Int = 0
+  // MARK: - Initializers
+  public required init<T: Integer>(_ number: T) {
+    baseNumber = LInt(number)
+    super.init()
+    tag = 0xF3
+  }
+
+  public required convenience init(integerLiteral: IntegerLiteralType) {
+    self.init(integerLiteral)
+  }
   
-  public subscript(i: Int) -> LInt { return self.baseNumber }
+  // MARK: CollectionType
+  override open subscript(i: Int) -> LInt { return self.baseNumber }
   
-  public func generate() -> SGenerator {
+  override open subscript(r: Range<Int>) -> [LInt] {
+    return [LInt](repeating: self.baseNumber, count: r.count)
+  }
+  
+  override open func makeIterator() -> SGenerator {
     return SGenerator() { a1 in self.baseNumber }
   }
 }

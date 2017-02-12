@@ -17,14 +17,14 @@ import LargeNumbers
   
       0, 1, 1, 2, 3, 5, 8, 13, 21, 34
 */
-public class A000045: RecursiveS {
+open class A000045: RecursiveS {
   // MARK: - Initializers
   public init() {
     super.init(infinite: true, tag: 0xA000045, description: "Fibonacci sequence",
       nextElement: {
-        if $0 < 0 { return 0 }
-        if $0 == 0 { return 1 }
-        return $1[$0] + $1[$0-1]
+        if $0 == 0 { return 0 }
+        if $0 == 1 { return 1 }
+        return $1[$0-1] + $1[$0-2]
       }
     )
   }

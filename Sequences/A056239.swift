@@ -19,7 +19,7 @@ import LargeNumbers
   
       0, 1, 2, 2, 3, 3, 4, 3, 4, 4
 */
-public class A056239: ExplicitS {
+open class A056239: ExplicitS {
   // MARK: - Initializers
   public init() {
     super.init(infinite: true, tag: 0xA056239,
@@ -27,7 +27,7 @@ public class A056239: ExplicitS {
         var res: LInt = 0
         for pf in factorize($0+1) {
           for p in A000040() {
-            res++
+            res = res + 1
             if LInt(pf) == p { break }
           }
         }

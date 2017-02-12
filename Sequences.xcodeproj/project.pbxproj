@@ -28,7 +28,6 @@
 		16AE4A051B25CB270045CFE3 /* A056239.swift in Sources */ = {isa = PBXBuildFile; fileRef = 16CF8E7E1B1755AF005AB3E1 /* A056239.swift */; };
 		16AE4A061B25CB2C0045CFE3 /* A121805.swift in Sources */ = {isa = PBXBuildFile; fileRef = 169831851B17871200E70B2F /* A121805.swift */; };
 		16AE4A071B25CB330045CFE3 /* Functions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 16CEFF3A1B166D090064A622 /* Functions.swift */; };
-		16AE4A081B25CB330045CFE3 /* Protocols.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1634EDE81B163962001F7456 /* Protocols.swift */; };
 		16AE4A091B25CB330045CFE3 /* Operators.swift in Sources */ = {isa = PBXBuildFile; fileRef = 161C636C1B18591400F33B1A /* Operators.swift */; };
 		16AE4A0B1B25CBA30045CFE3 /* SGenerator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 16AE4A0A1B25CBA30045CFE3 /* SGenerator.swift */; };
 /* End PBXBuildFile section */
@@ -56,7 +55,6 @@
 		1634EB891B25C133005237EC /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		1634EB8A1B25C133005237EC /* SequencesTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SequencesTests.swift; sourceTree = "<group>"; };
 		1634EDE11B162892001F7456 /* A181391.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = A181391.swift; sourceTree = "<group>"; };
-		1634EDE81B163962001F7456 /* Protocols.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = Protocols.swift; path = Common/Protocols.swift; sourceTree = "<group>"; };
 		164D47191B1A3CD100713ED3 /* CombinedS.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CombinedS.swift; sourceTree = "<group>"; };
 		164D47211B1A6A6A00713ED3 /* RecurringS.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RecurringS.swift; sourceTree = "<group>"; };
 		165070301B1FC809006A6DE7 /* IntegerS.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = IntegerS.swift; sourceTree = "<group>"; };
@@ -142,7 +140,6 @@
 			isa = PBXGroup;
 			children = (
 				16CEFF3A1B166D090064A622 /* Functions.swift */,
-				1634EDE81B163962001F7456 /* Protocols.swift */,
 				161C636C1B18591400F33B1A /* Operators.swift */,
 			);
 			name = Common;
@@ -290,14 +287,17 @@
 		16EFC87D1B10BA06004F3443 /* Project object */ = {
 			isa = PBXProject;
 			attributes = {
-				LastUpgradeCheck = 0630;
+				LastSwiftUpdateCheck = 0720;
+				LastUpgradeCheck = 0800;
 				ORGANIZATIONNAME = Lidin;
 				TargetAttributes = {
 					1634EB781B25C133005237EC = {
 						CreatedOnToolsVersion = 6.3.2;
+						LastSwiftMigration = 0800;
 					};
 					1634EB821B25C133005237EC = {
 						CreatedOnToolsVersion = 6.3.2;
+						LastSwiftMigration = 0800;
 					};
 				};
 			};
@@ -345,7 +345,6 @@
 				16AE49F81B25CB1A0045CFE3 /* RecursiveS.swift in Sources */,
 				16AE4A011B25CB210045CFE3 /* A244471.swift in Sources */,
 				16AE4A031B25CB270045CFE3 /* A001057.swift in Sources */,
-				16AE4A081B25CB330045CFE3 /* Protocols.swift in Sources */,
 				16AE49FC1B25CB210045CFE3 /* A000002.swift in Sources */,
 				16AE49FE1B25CB210045CFE3 /* A000045.swift in Sources */,
 				16AE4A091B25CB330045CFE3 /* Operators.swift in Sources */,
@@ -401,8 +400,12 @@
 				INFOPLIST_FILE = Sequences/Info.plist;
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks @loader_path/Frameworks";
+				MACOSX_DEPLOYMENT_TARGET = 10.10;
+				PRODUCT_BUNDLE_IDENTIFIER = "LID.$(PRODUCT_NAME:rfc1034identifier)";
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE = "";
 				SKIP_INSTALL = YES;
+				SWIFT_VERSION = 3.0;
 				VERSIONING_SYSTEM = "apple-generic";
 				VERSION_INFO_PREFIX = "";
 			};
@@ -421,8 +424,12 @@
 				INFOPLIST_FILE = Sequences/Info.plist;
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks @loader_path/Frameworks";
+				MACOSX_DEPLOYMENT_TARGET = 10.10;
+				PRODUCT_BUNDLE_IDENTIFIER = "LID.$(PRODUCT_NAME:rfc1034identifier)";
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE = "";
 				SKIP_INSTALL = YES;
+				SWIFT_VERSION = 3.0;
 				VERSIONING_SYSTEM = "apple-generic";
 				VERSION_INFO_PREFIX = "";
 			};
@@ -442,7 +449,9 @@
 				);
 				INFOPLIST_FILE = SequencesTests/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks @loader_path/../Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = "LID.$(PRODUCT_NAME:rfc1034identifier)";
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_VERSION = 3.0;
 			};
 			name = Debug;
 		};
@@ -456,7 +465,9 @@
 				);
 				INFOPLIST_FILE = SequencesTests/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks @loader_path/../Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = "LID.$(PRODUCT_NAME:rfc1034identifier)";
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_VERSION = 3.0;
 			};
 			name = Release;
 		};
@@ -473,13 +484,16 @@
 				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
 				CLANG_WARN_EMPTY_BODY = YES;
 				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
 				CLANG_WARN_INT_CONVERSION = YES;
 				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
 				CLANG_WARN_UNREACHABLE_CODE = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
 				COPY_PHASE_STRIP = NO;
 				DEBUG_INFORMATION_FORMAT = dwarf;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_TESTABILITY = YES;
 				GCC_C_LANGUAGE_STANDARD = gnu99;
 				GCC_DYNAMIC_NO_PIC = NO;
 				GCC_NO_COMMON_BLOCKS = YES;
@@ -516,8 +530,10 @@
 				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
 				CLANG_WARN_EMPTY_BODY = YES;
 				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
 				CLANG_WARN_INT_CONVERSION = YES;
 				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
 				CLANG_WARN_UNREACHABLE_CODE = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
 				COPY_PHASE_STRIP = NO;
@@ -535,6 +551,7 @@
 				MACOSX_DEPLOYMENT_TARGET = 10.10;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				SDKROOT = macosx;
+				SWIFT_OPTIMIZATION_LEVEL = "-Owholemodule";
 			};
 			name = Release;
 		};

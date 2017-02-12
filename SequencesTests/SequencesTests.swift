@@ -2,7 +2,7 @@
 //  SequencesTests.swift
 //  SequencesTests
 //
-//  Created by Hampus Lidin on 2015-05-27.
+//  Created by Hampus Lidin on 2015-06-08.
 //  Copyright (c) 2015 Lidin. All rights reserved.
 //
 
@@ -28,7 +28,7 @@ class SequencesTests: XCTestCase {
     
     func testPerformanceExample() {
         // This is an example of a performance test case.
-        self.measureBlock() {
+        self.measure() {
             // Put the code you want to measure the time of here.
         }
     }
